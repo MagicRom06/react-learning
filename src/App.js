@@ -19,18 +19,30 @@ const list = [
   }
 ]
 
-const App = () => (
-  <div className="App">
-  <h1>Hello</h1>
-  <label htmlFor="search">Search: </label>
-  <input id="search" type="text" />
-  
-  <hr />
-  <List />
-  </div>
-)
-  
-  
+const App = () => {
+
+  const handleChange = event => {
+    console.log(event.target.value);
+  }
+
+  return (
+    <div className="App">
+    <h1>Hello</h1>
+    <label htmlFor="search">Search: </label>
+    <input 
+      onChange={handleChange} 
+      id="search"
+      type="text" 
+    />
+
+    <hr />
+
+    <List />
+    </div>
+  )
+}
+
+
 const List = () => {
   return list.map(elt => (
     <div key={elt.objectID}>
