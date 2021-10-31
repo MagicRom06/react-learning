@@ -52,7 +52,7 @@ const App = () => {
     <div className="App">
     <h1>Hello</h1>
 
-    <Search search={searchTerm} onSearch={handleSearch} />
+    <InputWithLlabel id="search" label="Search" value={searchTerm} type="text" onInputChange={handleSearch} />
 
     <hr />
 
@@ -61,21 +61,20 @@ const App = () => {
   )
 }
 
-const Search = ({ search, onSearch }) => {
+const InputWithLlabel = ({ id, label, value, type, onInputChange }) => {
 
   return (
     <>
-      <label htmlFor="search">Search: </label>
+      <label htmlFor="search">{label}</label>
       <input 
-        onChange={onSearch} 
-        id="search"
-        type="text" 
-        value={search}
+        onChange={onInputChange} 
+        id={id}
+        type={type}
+        value={value}
       />
     </>
   )
 }
-
 
 const List = props => {
   return props.list.map(({objectID, ...item}) => (
