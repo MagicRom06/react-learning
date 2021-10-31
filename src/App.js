@@ -20,12 +20,24 @@ const initialStories = [
   }
 ]
 
+const getAsyncStories = () => 
+  new Promise(resolve => 
+    setTimeout(
+    () => resolve({ data: { stories: initialStories } }),
+    2000
+  )
+)
+
 const App = () => {
 
-
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [stories, setStories] = React.useState([]);
 
-  const [stories, setStories] = React.useState(initialStories);
+  React.useEffect(() => {
+    getAsyncStories().then((result) => {
+      setStories(result.data.stories);
+    });
+  }, []);
 
   const handleRemoveStory = item => {
     const newStories = stories.filter(story => (
