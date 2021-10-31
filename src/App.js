@@ -52,7 +52,15 @@ const App = () => {
     <div className="App">
     <h1>Hello</h1>
 
-    <InputWithLlabel id="search" label="Search" value={searchTerm} type="text" onInputChange={handleSearch} />
+    <InputWithLlabel 
+      id="search"
+      label="Search"
+      value={searchTerm}
+      type="text"
+      onInputChange={handleSearch}
+      >
+        <strong>Search: </strong>
+      </InputWithLlabel>
 
     <hr />
 
@@ -61,11 +69,11 @@ const App = () => {
   )
 }
 
-const InputWithLlabel = ({ id, label, value, type, onInputChange }) => {
+const InputWithLlabel = ({ id, value, type, onInputChange, children }) => {
 
   return (
     <>
-      <label htmlFor="search">{label}</label>
+      <label htmlFor="search">{children}</label>
       <input 
         onChange={onInputChange} 
         id={id}
