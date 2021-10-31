@@ -23,7 +23,7 @@ const App = () => {
     }
   ]
 
-  const [searchTerm, setSearchTerm] = React.useState('React');
+  const [searchTerm, setSearchTerm] = React.useState('');
 
   const handleSearch = event => {
     setSearchTerm(event.target.value);
@@ -48,16 +48,16 @@ const App = () => {
   )
 }
 
-const Search = props => {
+const Search = ({ search, onSearch }) => {
 
   return (
     <div>
       <label htmlFor="search">Search: </label>
       <input 
-        onChange={props.onSearch} 
+        onChange={onSearch} 
         id="search"
         type="text" 
-        value={props.search}
+        value={search}
       />
     </div>
   )
@@ -65,16 +65,25 @@ const Search = props => {
 
 
 const List = props => {
-  return props.list.map(elt => (
-    <div key={elt.objectID}>
-    <span>
-    <a href={elt.url}>{elt.title}</a>
-    </span>
-    <span>{elt.author}</span>
-    <span>{elt.num_comments}</span>
-    <span>{elt.points}</span>
-    </div>
+  return props.list.map(({objectID, ...item}) => (
+    <Item 
+      key={objectID}
+      {...item}
+    />
     ))
   }
+
+const Item = ({ title, url, author, num_comments, points }) => {
+  return (
+  <div>
+    <span>
+      <a href={url}>{title}</a>
+    </span>
+    <span>{author}</span>
+    <span>{num_comments}</span>
+    <span>{points}</span>
+  </div>
+  )
+}
 
 export default App;
