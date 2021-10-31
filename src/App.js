@@ -64,7 +64,7 @@ const App = () => {
 const Search = ({ search, onSearch }) => {
 
   return (
-    <div>
+    <>
       <label htmlFor="search">Search: </label>
       <input 
         onChange={onSearch} 
@@ -72,7 +72,7 @@ const Search = ({ search, onSearch }) => {
         type="text" 
         value={search}
       />
-    </div>
+    </>
   )
 }
 
