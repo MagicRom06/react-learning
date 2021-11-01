@@ -48,8 +48,9 @@ const App = () => {
   const [isClicked, setIsClicked] = React.useState(false);
 
   React.useEffect(() => {
+    if (!searchTerm) return;
     dispatchStories({ type: 'STORIES_FETCH_INIT' });
-    fetch(`${API_ENDPOINT}react`)
+    fetch(`${API_ENDPOINT}${searchTerm}`)
     .then(response => response.json())
     .then((result) => {
       dispatchStories({
@@ -58,7 +59,7 @@ const App = () => {
       })
       setIsLoading(false)
     }).catch(() => dispatchStories({ type: 'STORIES_FETCH_FAILURE' }));
-  }, []);
+  }, [searchTerm]);
 
   const handleRemoveStory = item => {
     dispatchStories({
@@ -80,10 +81,6 @@ const App = () => {
     }
   }
 
-  const searchedStories = stories.data.filter(story => 
-    story.title.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-
   return (
     <div className="App">
     <h1>Hello</h1>
@@ -101,7 +98,7 @@ const App = () => {
 
     <hr />
     {stories.isError && <p>Something went wrong ...</p>}
-    {stories.isLoading ? ( <p>Loading ...</p> ) : ( <List list={searchedStories} onRemoveItem={handleRemoveStory} /> )}
+    {stories.isLoading ? ( <p>Loading ...</p> ) : ( <List list={stories.data} onRemoveItem={handleRemoveStory} /> )}
     <button type="button" onClick={handleClick}>Click me</button>
     {isClicked && <p>Hello there</p>}
     </div>
