@@ -32,11 +32,16 @@ const App = () => {
 
   const [searchTerm, setSearchTerm] = React.useState('');
   const [stories, setStories] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isError, setIsError] = React.useState(false);
+  const [isClicked, setIsClicked] = React.useState(false);
 
   React.useEffect(() => {
+    setIsLoading(true);
     getAsyncStories().then((result) => {
       setStories(result.data.stories);
-    });
+      setIsLoading(false)
+    }).catch(() => setIsError(true));
   }, []);
 
   const handleRemoveStory = item => {
@@ -48,6 +53,15 @@ const App = () => {
 
   const handleSearch = event => {
     setSearchTerm(event.target.value);
+  }
+
+  const handleClick = event => {
+    if (isClicked) {
+      setIsClicked(false);
+    }
+    else {
+      setIsClicked(true);
+    }
   }
 
   const searchedStories = stories.filter(story => {
@@ -72,8 +86,10 @@ const App = () => {
       </InputWithLlabel>
 
     <hr />
-
-    <List list={searchedStories} onRemoveItem={handleRemoveStory} />
+    {isError && <p>Something went wrong ...</p>}
+    {isLoading ? ( <p>Loading ...</p> ) : ( <List list={searchedStories} onRemoveItem={handleRemoveStory} /> )}
+    <button type="button" onClick={handleClick}>Click me</button>
+    {isClicked && <p>Hello there</p>}
     </div>
   )
 }
