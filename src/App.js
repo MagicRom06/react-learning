@@ -47,19 +47,25 @@ const App = () => {
   const [isError, setIsError] = React.useState(false);
   const [isClicked, setIsClicked] = React.useState(false);
 
-  React.useEffect(() => {
+  const handleFetchStories = React.useCallback(() => {
     if (!searchTerm) return;
-    dispatchStories({ type: 'STORIES_FETCH_INIT' });
+    dispatchStories({type: 'STORIES_FETCH_INIT'});
     fetch(`${API_ENDPOINT}${searchTerm}`)
     .then(response => response.json())
-    .then((result) => {
+    .then(result => {
       dispatchStories({
         type: 'STORIES_FETCH_SUCCESS',
         payload: result.hits,
       })
-      setIsLoading(false)
-    }).catch(() => dispatchStories({ type: 'STORIES_FETCH_FAILURE' }));
-  }, [searchTerm]);
+    })
+    .catch(() => 
+      dispatchStories({type: 'STORIES_FETCH_FAILURE'})
+    );
+  }, [searchTerm])
+
+  React.useEffect(() => {
+    handleFetchStories()
+  }, [handleFetchStories])
 
   const handleRemoveStory = item => {
     dispatchStories({
