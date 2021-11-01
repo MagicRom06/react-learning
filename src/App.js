@@ -88,36 +88,24 @@ const App = () => {
     event.preventDefault();
   }
 
-  const handleClick = () => {
-    if (isClicked) {
-      setIsClicked(false);
-    }
-    else {
-      setIsClicked(true);
-    }
-  }
-
   return (
-    <div className="App">
-    <h1>Hello</h1>
+    <div className="container">
+    <h1 className="headline-primary">My Hacker Stories</h1>
 
     <SearchForm 
       searchTerm={searchTerm}
       onSearchInput={handleSearchInput}
       onSearchSubmit={handleSearchSubmit}
     />
-    
-    <hr />
+
     {stories.isError && <p>Something went wrong ...</p>}
     {stories.isLoading ? ( <p>Loading ...</p> ) : ( <List list={stories.data} onRemoveItem={handleRemoveStory} /> )}
-    <button type="button" onClick={handleClick}>Click me</button>
-    {isClicked && <p>Hello there</p>}
     </div>
   )
 }
 
 const SearchForm = ({searchTerm, onSearchInput, onSearchSubmit}) => (
-  <form onSubmit={onSearchSubmit}>
+  <form onSubmit={onSearchSubmit} className="search-form">
     <InputWithLlabel 
       id="search"
       label="Search"
@@ -128,7 +116,7 @@ const SearchForm = ({searchTerm, onSearchInput, onSearchSubmit}) => (
     >
       <strong>Search: </strong>
     </InputWithLlabel>
-    <button type="submit" disabled={!searchTerm}>
+    <button className="button button_large" type="submit" disabled={!searchTerm}>
       Submit
     </button>
   </form>
@@ -146,7 +134,7 @@ const InputWithLlabel = ({ id, value, type, onInputChange, children, isFocused }
 
   return (
     <>
-      <label htmlFor="search">{children}</label>
+      <label htmlFor={id} className="label">{children}</label>
       <input 
         ref={inputRef}
         onChange={onInputChange} 
@@ -154,6 +142,7 @@ const InputWithLlabel = ({ id, value, type, onInputChange, children, isFocused }
         type={type}
         value={value}
         autoFocus={isFocused}
+        className="input"
       />
     </>
   )
@@ -172,15 +161,15 @@ const List = ({list, onRemoveItem}) => {
 const Item = ({ item, onRemoveItem }) => {
 
   return (
-  <div key={item.objectID}>
-    <span>
+  <div className="item" key={item.objectID}>
+    <span style={{width: '40%'}}>
       <a href={item.url}>{item.title}</a>
     </span>
-    <span>{item.author}</span>
-    <span>{item.num_comments}</span>
-    <span>{item.points}</span>
-    <span>
-      <button type="button" onClick={() => onRemoveItem(item)}>
+    <span style={{width: '30%'}}>{item.author}</span>
+    <span style={{width: '10%'}}>{item.num_comments}</span>
+    <span style={{width: '10%'}}>{item.points}</span>
+    <span style={{width: '30%'}}>
+      <button className="button button_small" type="button" onClick={() => onRemoveItem(item)}>
         Dismiss
       </button>
     </span>
