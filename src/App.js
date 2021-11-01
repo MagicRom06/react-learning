@@ -83,8 +83,9 @@ const App = () => {
     setSearchTerm(event.target.value);
   }
 
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit = event => {
     setUrl(`${API_ENDPOINT}${searchTerm}`)
+    event.preventDefault();
   }
 
   const handleClick = () => {
@@ -100,20 +101,12 @@ const App = () => {
     <div className="App">
     <h1>Hello</h1>
 
-    <InputWithLlabel 
-      id="search"
-      label="Search"
-      value={searchTerm}
-      type="text"
-      onInputChange={handleSearchInput}
-      isFocused
-      >
-        <strong>Search: </strong>
-      </InputWithLlabel>
-      <button type="button" disabled={!searchTerm} onClick={handleSearchSubmit}>
-        Submit
-      </button>
-
+    <SearchForm 
+      searchTerm={searchTerm}
+      onSearchInput={handleSearchInput}
+      onSearchSubmit={handleSearchSubmit}
+    />
+    
     <hr />
     {stories.isError && <p>Something went wrong ...</p>}
     {stories.isLoading ? ( <p>Loading ...</p> ) : ( <List list={stories.data} onRemoveItem={handleRemoveStory} /> )}
@@ -122,6 +115,24 @@ const App = () => {
     </div>
   )
 }
+
+const SearchForm = ({searchTerm, onSearchInput, onSearchSubmit}) => (
+  <form onSubmit={onSearchSubmit}>
+    <InputWithLlabel 
+      id="search"
+      label="Search"
+      value={searchTerm}
+      type="text"
+      onInputChange={onSearchInput}
+      isFocused
+    >
+      <strong>Search: </strong>
+    </InputWithLlabel>
+    <button type="submit" disabled={!searchTerm}>
+      Submit
+    </button>
+  </form>
+)
 
 const InputWithLlabel = ({ id, value, type, onInputChange, children, isFocused }) => {
 
