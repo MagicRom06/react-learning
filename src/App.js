@@ -280,3 +280,5 @@ const Icon = () => {
 }
 
 export default App;
+
+export {storiesReducer, SearchForm, InputWithLlabel, List, Item};
