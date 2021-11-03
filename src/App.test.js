@@ -1,10 +1,8 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 import App, {
   storiesReducer,
   SearchForm,
-  InputWithLlabel,
-  List,
   Item
 } from './App';
 
@@ -27,6 +25,7 @@ const storyTwo = {
 }
 
 const stories = [storyOne, storyTwo];
+
 
 describe('storiesReducer', () => {
   test('removes a story from all stories', () => {
