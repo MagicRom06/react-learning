@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { sortBy } from 'lodash';
 
 const StyledItem = styled.div `
   display: flex;
@@ -39,19 +40,54 @@ const StyledButtonSmall = styled(StyledButton) `
   padding: 5px;
 `;
 
+const SORTS = {
+  NONE: list => list,
+  TITLE: list => sortBy(list, 'title'),
+  AUTHOR: list => sortBy(list, 'author'),
+  COMMENT: list => sortBy(list, 'num_comments').reverse(),
+  POINT: list => sortBy(list, 'points').reverse(),
+}
+
 const List = React.memo(({list, onRemoveItem}) => {
-    return list.map(item => (
+
+    const [sort, setSort] = React.useState('NONE');
+    const handleSort = sortKey => {
+      setSort(sortKey);
+    }
+    const sortFunction = SORTS[sort];
+    const sortedList = sortFunction(list);
+
+  return (
+    <div>
+      <div>
+        <span>
+          <button type="button" onClick={() => handleSort('TITLE')}>Title</button>
+        </span>
+        <span>
+          <button type="button" onClick={() => handleSort('AUTHOR')}>Author</button>
+        </span>
+        <span>
+          <button type="button" onClick={() => handleSort('COMMENT')}>Comment</button>
+        </span>
+        <span>
+          <button type="button" onClick={() => handleSort('POINT')}>Point</button>
+        </span>
+        <span>Actions</span>
+      </div>
+    {sortedList.map(item => (
       <Item 
         key={item.objectID}
         item={item}
         onRemoveItem={onRemoveItem}
       />
-    ));
+    ))}
+    </div>
+  );
 })
 
 const Item = ({ item, onRemoveItem }) => {
 
-    return (
+  return (
     <StyledItem key={item.objectID}>
       <StyledColumn width='40%'>
         <a href={item.url}>{item.title}</a>
@@ -65,8 +101,8 @@ const Item = ({ item, onRemoveItem }) => {
         </StyledButtonSmall>
       </StyledColumn>
     </StyledItem>
-    )
-  }
+  )
+}
 
 const Icon = () => {
   return (
