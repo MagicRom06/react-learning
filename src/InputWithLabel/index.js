@@ -9,6 +9,17 @@ const StyledLabel = styled.label `
   font-size: 24px;
 `;
 
+const StyledInput = styled.input `
+  border: none;
+  border-bottom: 1px solid #171212;
+  background-color: transparent;
+  font-size: 24px;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
 const InputWithLlabel = ({ id, value, type, onInputChange, children, isFocused }) => {
 
     const inputRef = React.useRef();
@@ -22,7 +33,7 @@ const InputWithLlabel = ({ id, value, type, onInputChange, children, isFocused }
     return (
       <>
         <StyledLabel htmlFor={id} className="label">{children}</StyledLabel>
-        <input 
+        <StyledInput 
           ref={inputRef}
           onChange={onInputChange} 
           id={id}
